@@ -1,22 +1,23 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import Spinner from '../layout/Spinner';
+import Repos from '../repos/Repos'
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types'
+import GithubContext from "../../context/github/githubContext";
 
-class User extends Component {
-  componentDidMount() {
-    this.props.getUser(this.props.match.params.login);
-  }
+const User = ({match}) => {
+  const githubContext = useContext(GithubContext)
+  
+  const { getUser, loading, user, repos, getUserRepos } = githubContext;
+  useEffect(() => {
+    getUser(match.params.login);
+    getUserRepos(match.params.login);
+    //eslint-disable-next-line
+  }, []);
 
-  static propTypes = {
-    loading : PropTypes.bool,
-    user: PropTypes.object.isRequired,
-    getUser: PropTypes.func.isRequired,
-  }
-  render() {
-    const {name, avatar_url, location, bio, blog, html_url, public_repos, hireable, login} = this.props.user;
+  
+ 
 
-    const { loading } = this.props;
+    const {name, avatar_url, location, bio, blog, html_url, public_repos, hireable, login} = user;
 
     if (loading) return <Spinner />
 
@@ -32,7 +33,7 @@ class User extends Component {
           <i className="fa fa-times circle text-danger" />
         )}
         <div className="card grid-2">
-          <div classNmae="all-center">
+          <div className="all-center">
             <img
               src={avatar_url}
               className="round-img"
@@ -71,9 +72,10 @@ class User extends Component {
             </ul>
           </div>
         </div>
+
+        <Repos repos={repos} />
       </Fragment>
     );
   }
-}
 
 export default User

@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {fab fa-github} from "@fortawesome/react-fontawesome";
 import "../../../node_modules/font-awesome/css/font-awesome.min.css";
-// import './users/User.css';
 import {Link} from 'react-router-dom';
  import '../../App.css'
 
 const Navbar = ({ icon, title}) => {
-  // var FontAwesome = require("react-fontawesome");
+  
     return (
       <nav className = 'navbar'>
         <h1>
